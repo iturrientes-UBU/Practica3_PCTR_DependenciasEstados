@@ -11,7 +11,7 @@ public class Parque implements IParque{
 	
 	
 	public Parque(int maximoPersonas) {	// TODO
-		maximoPersonasTotales=maximoPersonas;
+		maximoPersonasTotales = maximoPersonas;
 		contadorPersonasTotales = 0;
 		contadoresPersonasPuerta = new Hashtable<String, Integer>();
 		// TODO
