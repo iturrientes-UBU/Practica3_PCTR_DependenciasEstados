@@ -1,4 +1,4 @@
-package p03.c01;
+package src.p03.c01;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -83,6 +83,13 @@ public class Parque implements IParque{
 		//
 		// TODO
 		//
+	}
+
+
+	@Override
+	public void salirDelParque(String puerta) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
