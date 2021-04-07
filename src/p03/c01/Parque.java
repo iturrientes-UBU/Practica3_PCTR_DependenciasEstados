@@ -5,12 +5,13 @@ import java.util.Hashtable;
 
 public class Parque implements IParque{
 
-	// TODO 
 	private int contadorPersonasTotales;
+	private int maximoPersonasTotales;  
 	private Hashtable<String, Integer> contadoresPersonasPuerta;
 	
 	
-	public Parque() {	// TODO
+	public Parque(int maximoPersonas) {	// TODO
+		maximoPersonasTotales=maximoPersonas;
 		contadorPersonasTotales = 0;
 		contadoresPersonasPuerta = new Hashtable<String, Integer>();
 		// TODO
@@ -18,8 +19,13 @@ public class Parque implements IParque{
 
 
 	@Override
-	public void entrarAlParque(String puerta){		// TODO
-		
+	public synchronized void entrarAlParque(String puerta){		// TODO
+		try {
+			comprobarAntesDeEntrar();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// Si no hay entradas por esa puerta, inicializamos
 		if (contadoresPersonasPuerta.get(puerta) == null){
 			contadoresPersonasPuerta.put(puerta, 0);
@@ -34,7 +40,7 @@ public class Parque implements IParque{
 		
 		// Imprimimos el estado del parque
 		imprimirInfo(puerta, "Entrada");
-		
+		checkInvariante();
 		// TODO
 		
 		
@@ -42,10 +48,23 @@ public class Parque implements IParque{
 		
 	}
 	
-	// 
-	// TODO Método salirDelParque
-	//
 	
+	@Override
+	public void salirDelParque(String puerta) {
+		try {
+			comprobarAntesDeSalir();
+		} catch (InterruptedException e) {
+			
+			e.printStackTrace();
+		}
+		
+		if (contadoresPersonasPuerta.get(puerta) == null){
+			
+		}
+		
+		
+		
+	}
 	
 	private void imprimirInfo (String puerta, String movimiento){
 		System.out.println(movimiento + " por puerta " + puerta);
@@ -73,24 +92,15 @@ public class Parque implements IParque{
 		// TODO
 	}
 
-	protected void comprobarAntesDeEntrar(){	// TODO
-		//
-		// TODO
-		//
+	protected void comprobarAntesDeEntrar() throws InterruptedException{	// TODO
+		while(contadorPersonasTotales==0) wait();
 	}
 
-	protected void comprobarAntesDeSalir(){		// TODO
-		//
-		// TODO
-		//
+	protected void comprobarAntesDeSalir() throws InterruptedException{		// TODO
+		while(contadorPersonasTotales!=0) wait();
 	}
 
 
-	@Override
-	public void salirDelParque(String puerta) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 }
