@@ -6,7 +6,7 @@ import java.util.Hashtable;
 public class Parque implements IParque{
 
 	private int contadorPersonasTotales;
-	private int maximoPersonasTotales;  
+	private int maximoPersonasTotales;
 	private Hashtable<String, Integer> contadoresPersonasPuerta;
 	
 	
@@ -19,7 +19,7 @@ public class Parque implements IParque{
 
 
 	@Override
-	public synchronized void entrarAlParque(String puerta){		// TODO
+	public synchronized void entrarAlParque(String puerta){		
 		try {
 			comprobarAntesDeEntrar();
 		} catch (InterruptedException e) {
@@ -31,9 +31,6 @@ public class Parque implements IParque{
 			contadoresPersonasPuerta.put(puerta, 0);
 		}
 		
-		// TODO
-				
-		
 		// Aumentamos el contador total y el individual
 		contadorPersonasTotales++;		
 		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta)+1);
@@ -41,10 +38,7 @@ public class Parque implements IParque{
 		// Imprimimos el estado del parque
 		imprimirInfo(puerta, "Entrada");
 		checkInvariante();
-		// TODO
 		
-		
-		// TODO
 		
 	}
 	
@@ -61,6 +55,10 @@ public class Parque implements IParque{
 		if (contadoresPersonasPuerta.get(puerta) == null){
 			
 		}
+		
+		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta)-1);
+		
+		imprimirInfo(puerta,"Salida");
 		
 		
 		
