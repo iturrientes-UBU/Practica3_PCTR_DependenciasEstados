@@ -53,14 +53,15 @@ public class Parque implements IParque{
 		}
 		
 		if (contadoresPersonasPuerta.get(puerta) == null){
-			
+			throw new NullPointerException();
+        
 		}
 		
 		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta)-1);
 		
 		imprimirInfo(puerta,"Salida");
 		
-		
+		//notify();
 		
 	}
 	
@@ -90,12 +91,14 @@ public class Parque implements IParque{
 		// TODO
 	}
 
-	protected void comprobarAntesDeEntrar() throws InterruptedException{	// TODO
+	protected void comprobarAntesDeEntrar() throws InterruptedException{	
 		while(contadorPersonasTotales==0) wait();
+		notify();
 	}
 
-	protected void comprobarAntesDeSalir() throws InterruptedException{		// TODO
+	protected void comprobarAntesDeSalir() throws InterruptedException{		
 		while(contadorPersonasTotales!=0) wait();
+		notify();
 	}
 
 
