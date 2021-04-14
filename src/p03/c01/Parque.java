@@ -38,30 +38,35 @@ public class Parque implements IParque{
 		// Imprimimos el estado del parque
 		imprimirInfo(puerta, "Entrada");
 		checkInvariante();
+		notifyAll();
 		
 		
 	}
 	
 	
 	@Override
-	public void salirDelParque(String puerta) {
+	public synchronized void salirDelParque(String puerta) {
 		try {
 			comprobarAntesDeSalir();
 		} catch (InterruptedException e) {
-			
 			e.printStackTrace();
 		}
 		
 		if (contadoresPersonasPuerta.get(puerta) == null){
-			throw new NullPointerException();
-        
+			contadoresPersonasPuerta.put(puerta, 0);
 		}
 		
-		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta)-1);
+		/*if (contadoresPersonasPuerta.get(puerta) == null){
+			Thread.interrupted();
+			throw new NullPointerException();
+        
+		}*/
 		
+		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta)-1);
+		contadorPersonasTotales--;	
 		imprimirInfo(puerta,"Salida");
 		
-		//notify();
+		notifyAll();
 		
 	}
 	
@@ -91,14 +96,14 @@ public class Parque implements IParque{
 		// TODO
 	}
 
-	protected void comprobarAntesDeEntrar() throws InterruptedException{	
-		while(contadorPersonasTotales==0) wait();
-		notify();
+	protected synchronized void comprobarAntesDeEntrar() throws InterruptedException{	
+		while(contadorPersonasTotales==maximoPersonasTotales) wait();
+		
 	}
 
-	protected void comprobarAntesDeSalir() throws InterruptedException{		
-		while(contadorPersonasTotales!=0) wait();
-		notify();
+	protected synchronized void comprobarAntesDeSalir() throws InterruptedException{		
+		while(contadorPersonasTotales==0) wait();
+		
 	}
 
 
